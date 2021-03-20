@@ -7,14 +7,14 @@ var SqlString = require('sqlstring');
 
 
 
-router.post('/addFixPay', (req, res) => {
+router.post('/addPost', (req, res) => {
     let objectToSend = {}
     let input = req.body;
    
     var db = propObj.db;
-    var sqlJoining  = "insert into "+db+".fix_pay (emp_id,pay_cd,pay_type_cd,amount,effective_start_dt,status) values ("+SqlString.escape(input.emp_id)+","+SqlString.escape(input.pay_cd)+","+SqlString.escape(input.pay_type_cd)+","+SqlString.escape(input.amount)+","+SqlString.escape(input.effective_start_dt)+",A"+")";
+    var sqlPosting  = "insert into "+db+".posting (emp_id,from_date,to_date,department_cd,project_cd,work,role_cd) values ("+SqlString.escape(input.emp_id)+","+SqlString.escape(input.from_date)+","+SqlString.escape(input.to_date)+","+SqlString.escape(input.department_cd)+","+SqlString.escape(input.project_cd)+","+SqlString.escape(input.work)+","+SqlString.escape(input.role_cd)+")";
 
-    mysqlPool.query(sqlJoining, function (error, results) {
+    mysqlPool.query(sqlPosting, function (error, results) {
         if (error) {
             console.log("Error-->routes-->portal-->login-->login--", error)
             objectToSend["error"] = true
@@ -22,22 +22,21 @@ router.post('/addFixPay', (req, res) => {
             res.send(objectToSend);
         } else {
             objectToSend["error"] = false;
-            objectToSend["data"] = "Fix Pay Added Successfully"
+            objectToSend["data"] = "Posting is Successfull"
             res.send(objectToSend)
 
         } 
     })
 })
-router.get('/getfixPay:dtls', (req, res) => {
-    
+router.get('/getAllPosting', (req, res) => {
     let objectToSend = {}
-    var emp_id = req.params.dtls;
+
    
 
     
-    let db=propObj.db;
+    var db = propObj.db;
 
-    let sql_fetchCurr = "Select * from " + db + ".fix_pay f join "+db+".emp_info e on f.emp_id=e.emp_id where f.emp_id="+SqlString.escape(emp_id);
+    let sql_fetchCurr = "Select * from " + db + ".emp_info e join "+db+".posting p on p.emp_id=e.emp_id"
     
     mysqlPool.query(sql_fetchCurr, function (error, results) {
         if (error) {
@@ -52,24 +51,25 @@ router.get('/getfixPay:dtls', (req, res) => {
         }
     })
 })
-router.delete('/deleteFixPay:dtls',(req,res) => {
+
+router.delete('/deletePosting:dtls',(req,res)=>{
+    let objectToSend = {};
     var id = req.params.dtls;
-    var objectToSend = {};
     var db = propObj.db;
-    var query = "delete from "+db+".fix_pay where id="+SqlString.escape(id);
-    mysqlPool.query(query,function(error,results){
+
+    var sqlQuery = "delete from "+db+ ".posting where id="+SqlString.escape(id);
+    mysqlPool.query(sqlQuery,function(error,results){
         if(error){
             objectToSend['error'] = true;
-            objectToSend['data'] = "Some Error occurred at Server Side";
-            res.send(objectToSend);
+            objectToSend['data'] = "Error Occurred During Delete Of Employee";
+            res.send(objectToSend)
+
         }else{
             objectToSend['error'] = false;
-            objectToSend['data'] = "Fix Pay Deleted";
-            res.send(objectToSend);
-
+            objectToSend['data'] = "Posting Deleted Successfully";
+            res.send(objectToSend)
         }
-    })
+    });
 
 })
-
 module.exports = router;

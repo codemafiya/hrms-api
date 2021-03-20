@@ -26,15 +26,14 @@ app.use(function (req, res, next) {
     next();
 });
 
-
-
-
-/////////////////
-//Portal Requests
 var personal = require('./routes/personal/personal.js');
 app.use('/personal',personal);
 var bank = require('./routes/personal/bank.js');
 app.use('/bank',bank);
+var post = require('./routes/professional/post.js');
+app.use('/post',post);
+var fix = require('./routes/pay/fix.js');
+app.use('/fix',fix);
 
 
 

@@ -37,7 +37,7 @@ router.get('/getAllBank', (req, res) => {
     
     let db="hrms";
 
-    let sql_fetchCurr = "Select * from " + db + ".bank_dtl"
+    let sql_fetchCurr = "Select * from " + db + ".emp_info e join hrms.bank_dtl b where b.emp_id=e.emp_id"
     
     mysqlPool.query(sql_fetchCurr, function (error, results) {
         if (error) {
