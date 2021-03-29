@@ -34,6 +34,10 @@ var post = require('./routes/professional/post.js');
 app.use('/post',post);
 var fix = require('./routes/pay/fix.js');
 app.use('/fix',fix);
+var v = require('./routes/pay/variablePay.js');
+app.use('/variablePay',v);
+var bill = require('./routes/pay/bill.js');
+app.use('/bill',bill);
 
 
 
