@@ -11,7 +11,7 @@ router.post('/addJoining', (req, res) => {
     let objectToSend = {}
     let input = req.body;
    
-    var db = propObj.db;
+    var db = "hrms"+"_"+input.acct_id;
     var sqlJoining  = "insert into "+db+".emp_info (emp_first_name,emp_last_name,emp_middle_name,emp_personal_email,emp_primary_phone_no,emp_gender,dob,joining_date,offer_letter_no,emp_father_name,status) values ("+SqlString.escape(input.emp_first_name)+","+SqlString.escape(input.emp_last_name)+","+SqlString.escape(input.emp_middle_name)+","+SqlString.escape(input.emp_personal_email)+","+SqlString.escape(input.emp_primary_phone_no)+","+SqlString.escape(input.emp_gender)+","+SqlString.escape(input.dob)+","+SqlString.escape(input.joining_date)+","+SqlString.escape(input.offer_letter_no)+","+SqlString.escape(input.emp_father_name)+","+SqlString.escape(input.status)+")";
 
     mysqlPool.query(sqlJoining, function (error, results) {
@@ -28,13 +28,14 @@ router.post('/addJoining', (req, res) => {
         } 
     })
 })
-router.get('/getAllEmployees', (req, res) => {
+router.get('/getAllEmployees:dtls', (req, res) => {
     let objectToSend = {}
 
    
+    var input  = JSON.parse(req.params.dtls)
 
     
-    let db="hrms";
+    var db = "hrms"+"_"+input.acct_id;
 
     let sql_fetchCurr = "Select * from " + db + ".emp_info"
     
@@ -53,9 +54,11 @@ router.get('/getAllEmployees', (req, res) => {
 })
 
 router.delete('/deleteEmployee:dtls',(req,res)=>{
+    var input  = JSON.parse(req.params.dtls)
+
     let objectToSend = {};
-    var emp_id = req.params.dtls;
-    var db = propObj.db;
+    var emp_id = input.emp_id;
+    var db = "hrms"+"_"+input.acct_id;
 
     var sqlQuery = "delete from "+db+ ".emp_info where emp_id="+SqlString.escape(emp_id);
     mysqlPool.query(sqlQuery,function(error,results){

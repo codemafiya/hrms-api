@@ -11,7 +11,7 @@ router.post('/addBank', (req, res) => {
     let objectToSend = {}
     let input = req.body;
    
-    var db = propObj.db;
+    var db = "hrms"+"_"+input.acct_id;
     var sqlJoining  = "insert into "+db+".bank_dtl (emp_id,bank_account_no,ifsc_cd,bank_cd,pf_account_no,pan_no) values ("+SqlString.escape(input.emp_id)+","+SqlString.escape(input.bank_account_no)+","+SqlString.escape(input.ifsc_cd)+","+SqlString.escape(input.bank_cd)+","+SqlString.escape(input.pf_account_no)+","+SqlString.escape(input.pan_no)+")";
 
     mysqlPool.query(sqlJoining, function (error, results) {
@@ -28,14 +28,15 @@ router.post('/addBank', (req, res) => {
         } 
     })
 })
-router.get('/getAllBank', (req, res) => {
+router.get('/getAllBank:dtls', (req, res) => {
     
     let objectToSend = {}
 
-   
+    var input  = JSON.parse(req.params.dtls)
+
 
     
-    let db="hrms";
+    var db = "hrms"+"_"+input.acct_id;
 
     let sql_fetchCurr = "Select * from " + db + ".emp_info e join hrms.bank_dtl b where b.emp_id=e.emp_id"
     

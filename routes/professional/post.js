@@ -11,7 +11,7 @@ router.post('/addPost', (req, res) => {
     let objectToSend = {}
     let input = req.body;
    
-    var db = propObj.db;
+    var db = "hrms"+"_"+input.acct_id;
     var sqlPosting  = "insert into "+db+".posting (emp_id,from_date,to_date,department_cd,project_cd,work,role_cd) values ("+SqlString.escape(input.emp_id)+","+SqlString.escape(input.from_date)+","+SqlString.escape(input.to_date)+","+SqlString.escape(input.department_cd)+","+SqlString.escape(input.project_cd)+","+SqlString.escape(input.work)+","+SqlString.escape(input.role_cd)+")";
 
     mysqlPool.query(sqlPosting, function (error, results) {
@@ -28,13 +28,14 @@ router.post('/addPost', (req, res) => {
         } 
     })
 })
-router.get('/getAllPosting', (req, res) => {
+router.get('/getAllPosting:dtls', (req, res) => {
     let objectToSend = {}
 
    
+    var input  = JSON.parse(req.params.dtls)
 
     
-    var db = propObj.db;
+    var db = "hrms"+"_"+input.acct_id;
 
     let sql_fetchCurr = "Select * from " + db + ".emp_info e join "+db+".posting p on p.emp_id=e.emp_id"
     
@@ -54,8 +55,10 @@ router.get('/getAllPosting', (req, res) => {
 
 router.delete('/deletePosting:dtls',(req,res)=>{
     let objectToSend = {};
-    var id = req.params.dtls;
-    var db = propObj.db;
+    var input  = JSON.parse(req.params.dtls)
+
+    var id = input.id;
+    var db = "hrms"+"_"+input.acct_id;
 
     var sqlQuery = "delete from "+db+ ".posting where id="+SqlString.escape(id);
     mysqlPool.query(sqlQuery,function(error,results){

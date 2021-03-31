@@ -11,7 +11,7 @@ router.post('/createBill', (req, res) => {
     let objectToSend = {}
     let input = req.body;
    
-    var db = propObj.db;
+    var db = "hrms"+"_"+input.acct_id;
     var sqlJoining  = "insert into "+db+".bill (bill_desc,bill_dt,bill_amt,bill_status,bill_type,year,month) values ("+SqlString.escape(input.bill_desc)+","+SqlString.escape(input.bill_dt)+","+SqlString.escape(input.bill_amt)+",'G',"+"'S',"+SqlString.escape(input.year)+","+SqlString.escape(input.month)+")";
 
     mysqlPool.query(sqlJoining, function (error, results) {
@@ -49,14 +49,14 @@ router.post('/createBill', (req, res) => {
         } 
     })
 })
-router.get('/getAllBill', (req, res) => {
+router.get('/getAllBill:dtls', (req, res) => {
     
     let objectToSend = {}
    
    
-
+    var input  = JSON.parse(req.params.dtls)
     
-    let db=propObj.db;
+    var db = "hrms"+"_"+input.acct_id;
 
     let sql_fetchCurr = "Select * from " + db + ".bill";
     
@@ -74,9 +74,11 @@ router.get('/getAllBill', (req, res) => {
     })
 })
 router.delete('/deleteBill:dtls',(req,res) => {
-    var id = req.params.dtls;
+    var input  = JSON.parse(req.params.dtls)
+    var id = input.id;
+    
     var objectToSend = {};
-    var db = propObj.db;
+    var db = "hrms"+"_"+input.acct_id;
     var query = "delete from "+db+".bill where id="+SqlString.escape(id);
     var query1 = "delete from "+db+".bill_item where bill_id="+SqlString.escape(id);
     
@@ -94,14 +96,15 @@ router.delete('/deleteBill:dtls',(req,res) => {
     })
 
 })
-router.get('/getAllFixPay', (req, res) => {
+router.get('/getAllFixPay:dtls', (req, res) => {
     
     let objectToSend = {}
-   
+    var input  = JSON.parse(req.params.dtls)
+    
    
 
     
-    let db=propObj.db;
+    var db = "hrms"+"_"+input.acct_id;
 
     let sql_fetchCurr = "Select * from " + db + ".fix_pay where status='A'";
     
