@@ -30,13 +30,10 @@ var mysqlConProp={
 }
 
 
-// var productTables={
-//     "svayam_md":["datatype_info","domain_info","field_info","functional_resources","functional_roles","functional_role_xref_functional_resource","process_info",
-//                 "record_info","record_xref_field","uploaded_file_info","user_xref_functional_role","svayam_code_value"],
-//     "svayam_data":["activity_status","audit","batch_status","events","events_info","financial_process_info","ip","jrnl","period_close","period_close_date",
-//                 "period_xref_account","ppd_info","ref_account","ref_exchange_rate","ref_iue_account","ref_organisation","ref_reclass_account",
-//                 "rule","rule_lookups","rule_xref_input_file","sal","saved_reports","source_info","saved_record"]
-// }
+var productTables={
+
+    "hrms":["bank_dtl","bill","bill_item","emp_info","fix_pay","posting","var_pay"]
+}
 
 
 
@@ -47,7 +44,7 @@ module.exports={
     
     //mysql connection props
     mysqlConProp:mysqlConProp,
-
+    productTables: productTables,
     
    
   

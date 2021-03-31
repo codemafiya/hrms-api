@@ -38,6 +38,11 @@ var v = require('./routes/pay/variablePay.js');
 app.use('/variablePay',v);
 var bill = require('./routes/pay/bill.js');
 app.use('/bill',bill);
+var signup = require('./routes/auth/signup.js');
+app.use('/signup',signup);
+
+var signin = require('./routes/auth/signin.js');
+app.use('/signin',signin);
 
 
 
