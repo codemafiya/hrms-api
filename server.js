@@ -43,6 +43,11 @@ app.use('/signup',signup);
 
 var signin = require('./routes/auth/signin.js');
 app.use('/signin',signin);
+var users = require('./routes/auth/users.js');
+app.use('/users',users);
+
+var pay = require('./routes/master-data/pay.js');
+app.use('/pay',pay);
 
 
 
