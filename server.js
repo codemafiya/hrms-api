@@ -49,6 +49,11 @@ app.use('/users',users);
 var pay = require('./routes/master-data/pay.js');
 app.use('/pay',pay);
 
+var codevalue = require('./routes/master-data/code-value.js');
+app.use('/codevalue',codevalue);
+var leaveRule = require('./routes/master-data/leave-rule.js');
+app.use('/leaveRule',leaveRule);
+
 
 
 //Server listen method
