@@ -73,6 +73,54 @@ router.get('/getAllBill:dtls', (req, res) => {
         }
     })
 })
+router.get('/getMonthlyBill:dtls', (req, res) => {
+    
+    let objectToSend = {}
+   
+   
+    var input  = JSON.parse(req.params.dtls)
+    
+    var db = "hrms"+"_"+input.acct_id;
+
+    let sql_fetchCurr = "Select * from " + db + ".bill where year="+SqlString.escape(input.year)+" and month="+SqlString.escape(input.month);
+    
+    mysqlPool.query(sql_fetchCurr, function (error, results) {
+        if (error) {
+            console.log("Error-->routes-->projectMetadata-->metadata-->getcodevalue--", error)
+            objectToSend["error"] = true
+            objectToSend["data"] = "Some error occured at server side. Please try again later. If problem persists, contact support."
+            res.send(objectToSend);
+        } else {
+            objectToSend["error"] = false
+            objectToSend["data"] = results
+            res.send(objectToSend);
+        }
+    })
+})
+router.get('/getBillItems:dtls', (req, res) => {
+    
+    let objectToSend = {}
+   
+   
+    var input  = JSON.parse(req.params.dtls)
+    
+    var db = "hrms"+"_"+input.acct_id;
+
+    let sql_fetchCurr = "Select * from " + db + ".bill_item b join "+db+".emp_info e on b.emp_id=e.emp_id where b.bill_id="+SqlString.escape(input.id);
+    
+    mysqlPool.query(sql_fetchCurr, function (error, results) {
+        if (error) {
+            console.log("Error-->routes-->projectMetadata-->metadata-->getcodevalue--", error)
+            objectToSend["error"] = true
+            objectToSend["data"] = "Some error occured at server side. Please try again later. If problem persists, contact support."
+            res.send(objectToSend);
+        } else {
+            objectToSend["error"] = false
+            objectToSend["data"] = results
+            res.send(objectToSend);
+        }
+    })
+})
 router.delete('/deleteBill:dtls',(req,res) => {
     var input  = JSON.parse(req.params.dtls)
     var id = input.id;
