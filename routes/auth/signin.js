@@ -13,7 +13,6 @@ router.post('/login', (req, res) => {
    
     var db = propObj.db;
     var loginQuery  = "select * from auth.users where email="+SqlString.escape(input.email)+" and password="+SqlString.escape(input.password);
-    console.log(loginQuery);
     mysqlPool.query(loginQuery, function (error, results) {
         if (error) {
             console.log("Error-->routes-->portal-->login-->login--", error)
