@@ -32,7 +32,7 @@ var mysqlConProp={
 
 var productTables={
 
-    "hrms":["bank_dtl","bill","bill_item","emp_info","fix_pay","posting","var_pay","code_value","leave_rule","pay"]
+    "hrms":["bank_dtl","bill","bill_item","emp_info","fix_pay","posting","var_pay","code_value","leave_rule","pay","attendance","leave_app","emp_xref_leave"]
 }
 
 
