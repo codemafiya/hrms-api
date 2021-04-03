@@ -28,6 +28,27 @@ router.post('/addBank', (req, res) => {
         } 
     })
 })
+router.put('/updateBank', (req, res) => {
+    let objectToSend = {}
+    let input = req.body;
+   
+    var db = "hrms"+"_"+input.acct_id;
+    var sqlUpdate = "update "+db+".bank_dtl set bank_account_no="+SqlString.escape(input.bank_account_no)+",ifsc_cd="+SqlString.escape(input.ifsc_cd)+",bank_cd="+SqlString.escape(input.bank_cd)+",pf_account_no="+SqlString.escape(input.pf_account_no)+",pan_no="+SqlString.escape(input.pan_no)+" where id="+SqlString.escape(input.id);
+    
+    mysqlPool.query(sqlUpdate, function (error, results) {
+        if (error) {
+            console.log("Error-->routes-->portal-->login-->login--", error)
+            objectToSend["error"] = true
+            objectToSend["data"] = "Some error occured at server side. Please try again later. If problem persists, contact support."
+            res.send(objectToSend);
+        } else {
+            objectToSend["error"] = false;
+            objectToSend["data"] = "Bank is Updated"
+            res.send(objectToSend)
+
+        } 
+    })
+})
 router.get('/getAllBank:dtls', (req, res) => {
     
     let objectToSend = {}

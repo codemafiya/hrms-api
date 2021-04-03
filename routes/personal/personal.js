@@ -28,6 +28,45 @@ router.post('/addJoining', (req, res) => {
         } 
     })
 })
+router.put('/updateEmployeeInfo', (req, res) => {
+    let objectToSend = {}
+    let input = req.body;
+    //var db = "hrms_1";
+    var db = "hrms"+"_"+input.acct_id;
+    var sqlJoining  = "update "+db+".emp_info set emp_first_name="+SqlString.escape(input.emp_first_name)+",emp_middle_name="+SqlString.escape(input.emp_middle_name)+",emp_last_name="+SqlString.escape(input.emp_last_name)+",dob="+SqlString.escape(input.dob)+",joining_date="+SqlString.escape(input.joining_date)
+    +",marital_status="+SqlString.escape(input.marital_status)+",emp_gender="+SqlString.escape(input.emp_gender)+",emp_company_email="+SqlString.escape(input.emp_company_email)+",emp_father_name="+SqlString.escape(input.emp_father_name)+",emp_husband_name="+SqlString.escape(input.emp_husband_name)
+    +",emp_nationality="+SqlString.escape(input.emp_nationality)
+    +",emp_per_address_line1="+SqlString.escape(input.emp_per_address_line1)
+    +",emp_per_address_line2="+SqlString.escape(input.emp_per_address_line2)
+    +",emp_per_district="+SqlString.escape(input.emp_per_district)
+    +",emp_per_state="+SqlString.escape(input.emp_per_state)
+    +",emp_per_zip_cd="+SqlString.escape(input.emp_per_zip_cd)
+    +",emp_personal_email="+SqlString.escape(input.emp_personal_email)
+    +",emp_primary_phone_no="+SqlString.escape(input.emp_primary_phone_no)
+    +",emp_secondary_phone_no="+SqlString.escape(input.emp_secondary_phone_no)
+    +",emp_temp_address_line1="+SqlString.escape(input.emp_temp_address_line1)
+    +",emp_temp_address_line2="+SqlString.escape(input.emp_temp_address_line2)
+    +",emp_temp_district="+SqlString.escape(input.emp_temp_district)
+    +",emp_temp_state="+SqlString.escape(input.emp_temp_state)
+    +",emp_temp_zip_cd="+SqlString.escape(input.emp_temp_zip_cd)
+    +",offer_letter_no="+SqlString.escape(input.offer_letter_no)
+    +" where emp_id="+SqlString.escape(input.emp_id);
+    //console.log(sqlJoining)
+
+    mysqlPool.query(sqlJoining, function (error, results) {
+        if (error) {
+            console.log("Error-->routes-->portal-->login-->login--", error)
+            objectToSend["error"] = true
+            objectToSend["data"] = "Some error occured at server side. Please try again later. If problem persists, contact support."
+            res.send(objectToSend);
+        } else {
+            objectToSend["error"] = false;
+            objectToSend["data"] = "Employee Info Updated is Successfull"
+            res.send(objectToSend)
+
+        } 
+    })
+})
 router.get('/getAllEmployees:dtls', (req, res) => {
     let objectToSend = {}
 
@@ -75,4 +114,5 @@ router.delete('/deleteEmployee:dtls',(req,res)=>{
     });
 
 })
+
 module.exports = router;
