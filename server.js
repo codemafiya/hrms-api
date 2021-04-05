@@ -53,6 +53,12 @@ var codevalue = require('./routes/master-data/code-value.js');
 app.use('/codevalue',codevalue);
 var leaveRule = require('./routes/master-data/leave-rule.js');
 app.use('/leaveRule',leaveRule);
+var attendance = require('./routes/professional/attendance.js');
+app.use('/attendance',attendance);
+var establishment = require('./routes/professional/establishment.js');
+app.use('/establishment',establishment);
+var leave = require('./routes/professional/leave.js');
+app.use('/leaveInfo',leave);
 
 
 
