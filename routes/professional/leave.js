@@ -7,12 +7,12 @@ var SqlString = require('sqlstring');
 
 
 
-router.post('/addAttendance', (req, res) => {
+router.post('/addLeaveInfo', (req, res) => {
     let objectToSend = {}
     let input = req.body;
    
     var db = "hrms"+"_"+input.acct_id;
-    var sqlPosting  = "insert into "+db+".attendance (emp_id,dt,arr_time,dep_time,is_short_leave,emp_reason,mgr_comm,salary_ded) values ("+SqlString.escape(input.emp_id)+","+SqlString.escape(input.dt)+","+SqlString.escape(input.arr_time)+","+SqlString.escape(input.dep_time)+","+SqlString.escape(input.is_short_leave)+","+SqlString.escape(input.emp_reason)+","+SqlString.escape(input.mgr_comm)+","+SqlString.escape(input.salary_ded)+")";
+    var sqlPosting  = "insert into "+db+".emp_xref_leave (emp_id,leave_cd,no_of_leaves,used_leaves,status) values ("+SqlString.escape(input.emp_id)+","+SqlString.escape(input.leave_cd)+","+SqlString.escape(input.no_of_leaves)+",0,'A'"+")";
 
     mysqlPool.query(sqlPosting, function (error, results) {
         if (error) {
@@ -22,19 +22,19 @@ router.post('/addAttendance', (req, res) => {
             res.send(objectToSend);
         } else {
             objectToSend["error"] = false;
-            objectToSend["data"] = "Attendance added Successfully"
+            objectToSend["data"] = "Leave added Successfully"
             res.send(objectToSend)
 
         } 
     })
 })
-router.put('/updateAttendance', (req, res) => {
+router.put('/updateLeaveInfo', (req, res) => {
     let objectToSend = {}
     let input = req.body;
    
     var db = "hrms"+"_"+input.acct_id;
-    var sql = "update "+db+".attendance set emp_id="+SqlString.escape(input.emp_id)+",arr_time="+SqlString.escape(input.arr_time)+",dep_time="+SqlString.escape(input.dep_time)+",dt="+SqlString.escape(input.dt)
-    +",emp_reason="+SqlString.escape(input.emp_reason)+",mgr_comm="+SqlString.escape(input.mgr_comm)+",salary_ded="+SqlString.escape(input.salary_ded)+",is_short_leave="+SqlString.escape(input.is_short_leave)+" where id="+SqlString.escape(input.id);
+    var sql = "update "+db+".emp_xref_leave set emp_id="+SqlString.escape(input.emp_id)+",leave_cd="+SqlString.escape(input.leave_cd)+",no_of_leaves="+SqlString.escape(input.no_of_leaves)+",used_leaves="+SqlString.escape(input.used_leaves)
+    +",status="+SqlString.escape(input.status)+" where id="+SqlString.escape(input.id);
     mysqlPool.query(sql, function (error, results) {
         if (error) {
             console.log("Error-->routes-->portal-->login-->login--", error)
@@ -43,13 +43,13 @@ router.put('/updateAttendance', (req, res) => {
             res.send(objectToSend);
         } else {
             objectToSend["error"] = false;
-            objectToSend["data"] = "Attendance added Successfully"
+            objectToSend["data"] = "Leave Updated Successfully"
             res.send(objectToSend)
 
         } 
     })
 })
-router.get('/getAllAttendance:dtls', (req, res) => {
+router.get('/getLeaveInfo:dtls', (req, res) => {
     let objectToSend = {}
 
    
@@ -58,7 +58,7 @@ router.get('/getAllAttendance:dtls', (req, res) => {
     
     var db = "hrms"+"_"+input.acct_id;
 
-    let sql_fetchCurr = "Select e.emp_id,e.emp_first_name,e.emp_middle_name,e.emp_last_name,a.* from " + db + ".attendance a join "+db+".emp_info e on a.emp_id=e.emp_id where a.dt="+SqlString.escape(input.dt);
+    let sql_fetchCurr = "Select e.emp_id,e.emp_first_name,e.emp_middle_name,e.emp_last_name,a.* from " + db + ".emp_xref_leave a join "+db+".emp_info e on a.emp_id=e.emp_id";
     mysqlPool.query(sql_fetchCurr, function (error, results) {
         if (error) {
             console.log("Error-->routes-->projectMetadata-->metadata-->getcodevalue--", error)
@@ -73,14 +73,14 @@ router.get('/getAllAttendance:dtls', (req, res) => {
     })
 })
 
-router.delete('/deleteAttendance:dtls',(req,res)=>{
+router.delete('/deleteLeaveInfo:dtls',(req,res)=>{
     let objectToSend = {};
     var input  = JSON.parse(req.params.dtls)
 
     var id = input.id;
     var db = "hrms"+"_"+input.acct_id;
 
-    var sqlQuery = "delete from "+db+ ".attendance where id="+SqlString.escape(id);
+    var sqlQuery = "delete from "+db+ ".emp_xref_leave where id="+SqlString.escape(id);
     mysqlPool.query(sqlQuery,function(error,results){
         if(error){
             objectToSend['error'] = true;
@@ -89,7 +89,7 @@ router.delete('/deleteAttendance:dtls',(req,res)=>{
 
         }else{
             objectToSend['error'] = false;
-            objectToSend['data'] = "Attendance Deleted Successfully";
+            objectToSend['data'] = "Leave Deleted Successfully";
             res.send(objectToSend)
         }
     });
